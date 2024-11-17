@@ -11,8 +11,40 @@ typedef struct Queue {
     Node* end;
 } Queue;
 
+Queue* createQueue();
+void enqueue(Queue* queue, char value);
+char dequeue(Queue* queue);
+void filterQueue(Queue* queue);
+void deleteElements(Queue* queue, int number);
+void printQueue(Queue* queue);
+
+int main() {
+    Queue* queue = createQueue();
+
+    char elements[] = {'A', 'B', 'C', 'D', 'E', 'E', 'D', 'C', 'B', 'A'};
+
+    int arrLength = sizeof(elements) / sizeof(elements[0]);
+
+    for (int i = 0; i < arrLength; i++) {
+        enqueue(queue, elements[i]);
+    }
+
+    printQueue(queue);
+
+    filterQueue(queue);
+
+    printQueue(queue);
+
+    deleteElements(queue, 3);
+
+    printQueue(queue);
+
+    return 0;
+}
+
 Queue* createQueue() {
     Queue* queue = malloc(sizeof(Queue));
+
     queue->start = NULL;
     queue->end = NULL;
 
@@ -20,16 +52,17 @@ Queue* createQueue() {
 }
 
 void enqueue(Queue* queue, char value) {
-    Node* new_node = malloc(sizeof(Node));
-    new_node->data = value;
-    new_node->next = NULL;
+    Node* newNode = malloc(sizeof(Node));
+
+    newNode->data = value;
+    newNode->next = NULL;
 
     if (queue->end == NULL) {
-        queue->start = new_node;
-        queue->end = new_node;
+        queue->start = newNode;
+        queue->end = newNode;
     } else {
-        queue->end->next = new_node;
-        queue->end = new_node;
+        queue->end->next = newNode;
+        queue->end = newNode;
     }
 }
 
@@ -57,7 +90,6 @@ void filterQueue(Queue* queue) {
 
     while (current != NULL && current->next != NULL) {
         if (current->data < current->next->data) {
-
             while (current->next != NULL && current->data < current->next->data) {
                 current = current->next;
             }
@@ -82,8 +114,8 @@ void filterQueue(Queue* queue) {
     }
 }
 
-void deleteNumberOfElements(Queue* queue, int M) {
-    for (int i = 0; i < M; i++) {
+void deleteElements(Queue* queue, int number) {
+    for (int i = 0; i < number; i++) {
         if (dequeue(queue) == '\0') {
             break;
         }
@@ -99,28 +131,4 @@ void printQueue(Queue* queue) {
     }
 
     printf("NULL\n");
-}
-
-int main() {
-    Queue* queue = createQueue();
-
-    char elements[] = {'A', 'B', 'C', 'D', 'E', 'E', 'D', 'C', 'B', 'A'};
-
-    int arrLength = sizeof(elements) / sizeof(elements[0]);
-
-    for (int i = 0; i < arrLength; i++) {
-        enqueue(queue, elements[i]);
-    }
-
-    printQueue(queue);
-
-    filterQueue(queue);
-
-    printQueue(queue);
-
-    deleteNumberOfElements(queue, 3);
-
-    printQueue(queue);
-
-    return 0;
 }
